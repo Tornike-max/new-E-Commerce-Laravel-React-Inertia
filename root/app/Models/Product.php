@@ -10,7 +10,6 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $table = 'category_products';
 
     public function categories()
     {
@@ -20,5 +19,15 @@ class Product extends Model
     public function vendor(): BelongsTo
     {
         return $this->belongsTo(Vendor::class);
+    }
+
+    public function colors()
+    {
+        return $this->belongsToMany(Color::class, 'product_color_size');
+    }
+
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class, 'product_color_size');
     }
 }
