@@ -3,7 +3,26 @@ export interface User {
     name: string;
     email: string;
     status: string;
+    image?: string;
     email_verified_at?: string;
+}
+
+export interface Vendor {
+    id: number;
+    name: string;
+    description: string;
+    logo: string;
+    user: User;
+    products: Product[];
+}
+export interface Product {
+    id: number;
+    vendor: Vendor;
+    name: string;
+    description: string;
+    price: number;
+    count: number;
+    image: string;
 }
 
 export type PageProps<
@@ -12,4 +31,5 @@ export type PageProps<
     auth: {
         user: User;
     };
+    products: Product[];
 };
