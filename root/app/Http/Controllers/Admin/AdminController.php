@@ -31,6 +31,8 @@ class AdminController extends Controller
 
     public function edit(Product $product)
     {
-        dd($product);
+        return inertia('Admin/Edit', [
+            'product' => $product
+        ]);
     }
 }
