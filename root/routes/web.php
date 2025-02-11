@@ -16,7 +16,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/admin', [AdminController::class, 'index'])->middleware('auth')->name('admin');
-Route::get('/admin/show/{product}', [AdminController::class, 'show'])->middleware('auth')->name('admin.product');
+Route::get('/admin/show/{product}', [AdminController::class, 'show'])->middleware('auth')->name('admin.show.product');
 Route::get('/admin/{product}/edit', [AdminController::class, 'edit'])->middleware('auth')->name('admin.product.edit');
 
 require __DIR__ . '/auth.php';

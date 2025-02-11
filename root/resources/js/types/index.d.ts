@@ -23,6 +23,7 @@ export interface Product {
     price: number;
     count: number;
     image: string;
+    status: string;
 }
 
 export type PageProps<

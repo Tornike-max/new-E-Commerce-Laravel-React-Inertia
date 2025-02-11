@@ -5,7 +5,7 @@ import React from "react";
 
 const Index = ({ auth, products }: PageProps) => {
     return (
-        <AdminPanelLayout>
+        <AdminPanelLayout header="Products">
             <Head title="Admin Panel" />
 
             <div className="py-12">
@@ -64,18 +64,44 @@ const Index = ({ auth, products }: PageProps) => {
                                                 {product.vendor?.name || "N/A"}
                                             </td>
                                             <td className="p-4 text-center">
-                                                <Link
-                                                    href={route(
-                                                        "admin.product",
-                                                        product.id
-                                                    )}
-                                                    className="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
-                                                    onClick={(e) =>
-                                                        e.stopPropagation()
-                                                    } // Prevents tr click
-                                                >
-                                                    Edit
-                                                </Link>
+                                                <div className="flex items-center gap-2">
+                                                    <Link
+                                                        href={route(
+                                                            "admin.show.product",
+                                                            product.id
+                                                        )}
+                                                        className="px-3 py-1 text-white bg-green-500 rounded hover:bg-green-600"
+                                                        onClick={(e) =>
+                                                            e.stopPropagation()
+                                                        }
+                                                    >
+                                                        Show
+                                                    </Link>
+                                                    <Link
+                                                        href={route(
+                                                            "admin.product.edit",
+                                                            product.id
+                                                        )}
+                                                        className="px-3 py-1 text-white bg-blue-500 rounded hover:bg-blue-600"
+                                                        onClick={(e) =>
+                                                            e.stopPropagation()
+                                                        }
+                                                    >
+                                                        Edit
+                                                    </Link>
+                                                    <Link
+                                                        href={route(
+                                                            "admin.product.edit",
+                                                            product.id
+                                                        )}
+                                                        className="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600"
+                                                        onClick={(e) =>
+                                                            e.stopPropagation()
+                                                        }
+                                                    >
+                                                        Delete
+                                                    </Link>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))

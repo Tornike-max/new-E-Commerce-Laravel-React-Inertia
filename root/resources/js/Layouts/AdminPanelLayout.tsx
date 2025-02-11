@@ -28,7 +28,13 @@ function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
 }
 
-const AdminPanelLayout = ({ children }: { children: React.ReactNode }) => {
+const AdminPanelLayout = ({
+    children,
+    header,
+}: {
+    children: React.ReactNode;
+    header: string;
+}) => {
     const user = usePage().props.auth.user;
     const [userData, setUserData] = useState(user);
 
@@ -225,7 +231,7 @@ const AdminPanelLayout = ({ children }: { children: React.ReactNode }) => {
                 <header className="bg-white shadow-sm">
                     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                         <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-                            Dashboard
+                            {header}
                         </h1>
                     </div>
                 </header>
