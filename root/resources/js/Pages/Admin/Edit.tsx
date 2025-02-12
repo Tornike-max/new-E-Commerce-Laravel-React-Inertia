@@ -11,12 +11,18 @@ interface EditProps {
 }
 
 const Edit = ({ product }: EditProps) => {
-    const { data, setData, errors, processing, reset } = useForm({
+    const { data, setData, errors, processing, reset, put } = useForm({
         name: product.name,
         price: product.price,
         count: product.count,
         status: product.status,
+        description: product.description,
     });
+
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        put(route("admin.product.update", product.id));
+    };
     return (
         <AdminPanelLayout header="Edit Product">
             <Head title={`Product Details - ${product.name}`} />
@@ -31,7 +37,10 @@ const Edit = ({ product }: EditProps) => {
                             <p className="text-sm italic">Product Edit</p>
                         </div>
 
-                        <form className="p-8 w-full flex  flex-col justify-center items-center gap-4">
+                        <form
+                            onSubmit={onSubmit}
+                            className="p-8 w-full flex  flex-col justify-center items-center gap-4"
+                        >
                             <div className="w-full flex flex-col gap-2 justify-start">
                                 <InputLabel>Name</InputLabel>
                                 <TextInput
@@ -81,7 +90,7 @@ const Edit = ({ product }: EditProps) => {
                                 <InputLabel>Status</InputLabel>
                                 <TextInput
                                     type="text"
-                                    value={data.count}
+                                    value={data.status}
                                     onChange={(e) =>
                                         setData("status", e.target.value)
                                     }
@@ -90,24 +99,37 @@ const Edit = ({ product }: EditProps) => {
                                     <InputError message={errors.status} />
                                 )}
                             </div>
+                            <div className="w-full flex flex-col gap-2 justify-start">
+                                <InputLabel>Description</InputLabel>
+                                <TextInput
+                                    type="text"
+                                    value={data.description}
+                                    onChange={(e) =>
+                                        setData("description", e.target.value)
+                                    }
+                                />
+                                {errors.description && (
+                                    <InputError message={errors.description} />
+                                )}
+                            </div>
+                            <div className="w-full bg-gray-50 p-4 text-right flex gap-2  items-center justify-end">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        reset();
+                                    }}
+                                    className="inline-block px-6 py-2 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 hover:shadow-lg transition transform hover:scale-105"
+                                >
+                                    Clear
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="inline-block px-6 py-2 bg-indigo-500 text-white rounded-full shadow-md hover:bg-indigo-600 hover:shadow-lg transition transform hover:scale-105"
+                                >
+                                    Update
+                                </button>
+                            </div>
                         </form>
-
-                        <div className="bg-gray-50 p-4 text-right flex gap-2 items-center justify-end">
-                            <button
-                                onClick={() => {
-                                    reset();
-                                }}
-                                className="inline-block px-6 py-2 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 hover:shadow-lg transition transform hover:scale-105"
-                            >
-                                Clear
-                            </button>
-                            <Link
-                                href={route("admin.product.edit", product.id)}
-                                className="inline-block px-6 py-2 bg-indigo-500 text-white rounded-full shadow-md hover:bg-indigo-600 hover:shadow-lg transition transform hover:scale-105"
-                            >
-                                Update
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -35,4 +35,15 @@ class AdminController extends Controller
             'product' => $product
         ]);
     }
+
+    public function update(Request $request, Product $product)
+    {
+        $validatedData = $request->validate([
+            'name' => 'nullable|string',
+            'price' => 'nullable|numeric',
+            'count' => 'nullable|numeric',
+            'status => nullable|string'
+        ]);
+        dd($request->all());
+    }
 }
