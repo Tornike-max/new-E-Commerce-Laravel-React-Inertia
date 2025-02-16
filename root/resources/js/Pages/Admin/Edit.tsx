@@ -101,13 +101,14 @@ const Edit = ({ product }: EditProps) => {
                             </div>
                             <div className="w-full flex flex-col gap-2 justify-start">
                                 <InputLabel>Description</InputLabel>
-                                <TextInput
-                                    type="text"
-                                    value={data.description}
+                                <textarea
+                                    className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     onChange={(e) =>
                                         setData("description", e.target.value)
                                     }
-                                />
+                                >
+                                    {data.description}
+                                </textarea>
                                 {errors.description && (
                                     <InputError message={errors.description} />
                                 )}

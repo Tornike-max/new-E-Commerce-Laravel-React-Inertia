@@ -42,8 +42,12 @@ class AdminController extends Controller
             'name' => 'nullable|string',
             'price' => 'nullable|numeric',
             'count' => 'nullable|numeric',
-            'status => nullable|string'
+            'status' => 'nullable|string',
+            'description' => 'nullable|string'
         ]);
-        dd($request->all());
+
+        $product->update($validatedData);
+
+        return redirect()->route('admin');
     }
 }
