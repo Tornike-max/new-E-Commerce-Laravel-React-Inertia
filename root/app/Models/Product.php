@@ -15,6 +15,7 @@ class Product extends Model
         'price',
         'count',
         'status',
+        'description',
         'vendor_id'
     ];
 

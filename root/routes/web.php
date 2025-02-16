@@ -19,5 +19,6 @@ Route::get('/admin', [AdminController::class, 'index'])->middleware('auth')->nam
 Route::get('/admin/show/{product}', [AdminController::class, 'show'])->middleware('auth')->name('admin.show.product');
 Route::get('/admin/{product}/edit', [AdminController::class, 'edit'])->middleware('auth')->name('admin.product.edit');
 Route::put('/admin/update/{product}', [AdminController::class, 'update'])->middleware('auth')->name('admin.product.update');
+Route::delete('/admin/delete/{product}', [AdminController::class, 'destroy'])->middleware('auth')->name('admin.product.delete');
 
 require __DIR__ . '/auth.php';

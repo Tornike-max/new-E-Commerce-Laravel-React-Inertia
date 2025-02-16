@@ -1,9 +1,15 @@
 import AdminPanelLayout from "@/Layouts/AdminPanelLayout";
 import { PageProps, Product } from "@/types";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import React from "react";
 
 const Index = ({ auth, products }: PageProps) => {
+    const { delete: destroy, processing } = useForm();
+    const onSubmit = (id: number) => {
+        if (confirm("Are you sure you want to delete this product?")) {
+            destroy(route("admin.product.delete", id));
+        }
+    };
     return (
         <AdminPanelLayout header="Products">
             <Head title="Admin Panel" />
@@ -89,18 +95,15 @@ const Index = ({ auth, products }: PageProps) => {
                                                     >
                                                         Edit
                                                     </Link>
-                                                    <Link
-                                                        href={route(
-                                                            "admin.product.edit",
-                                                            product.id
-                                                        )}
-                                                        className="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600"
-                                                        onClick={(e) =>
-                                                            e.stopPropagation()
+                                                    <form
+                                                        onSubmit={() =>
+                                                            onSubmit(product.id)
                                                         }
                                                     >
-                                                        Delete
-                                                    </Link>
+                                                        <button className="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600">
+                                                            Delete
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </td>
                                         </tr>
