@@ -27,8 +27,12 @@ const Edit = ({ product }: EditProps) => {
         <AdminPanelLayout header="Edit Product">
             <Head title={`Product Details - ${product.name}`} />
 
-            <div className="py-10 bg-gray-100 min-h-screen">
+            <div className="py-10 min-h-screen rounded-md">
+                    <div className="w-full flex justify-start items-center my-4">
+                        <Link href={route('admin')} className="py-2 px-3 rounded-md border-[1px] border-slate-300 hover:bg-indigo-500 duration-200 transition-all hover:text-slate-100">Go Back</Link>
+                    </div>
                 <div className="max-w-4xl mx-auto px-6 lg:px-8">
+                    
                     <div className="bg-white shadow-2xl rounded-2xl overflow-hidden border-t-4 border-indigo-500">
                         <div className="bg-indigo-600 text-white text-center py-4">
                             <h2 className="text-3xl font-extrabold">
@@ -36,6 +40,8 @@ const Edit = ({ product }: EditProps) => {
                             </h2>
                             <p className="text-sm italic">Product Edit</p>
                         </div>
+
+                        
 
                         <form
                             onSubmit={onSubmit}

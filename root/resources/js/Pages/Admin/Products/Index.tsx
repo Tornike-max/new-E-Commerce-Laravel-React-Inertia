@@ -16,6 +16,9 @@ const Index = ({ auth, products }: PageProps) => {
 
             <div className="py-12">
                 <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg p-6">
+                    <div className="w-full flex justify-end items-center my-4">
+                        <Link href={route('admin.create.product')} className="py-2 px-3 rounded-md border-[1px] border-slate-300 hover:bg-indigo-500 hover:text-slate-100 duration-200 transition-all">Create New Product</Link>
+                    </div>
                     <div className="relative w-full overflow-x-auto">
                         <table className="w-full text-left table-auto min-w-max border-collapse">
                             <thead className="bg-gray-100">
