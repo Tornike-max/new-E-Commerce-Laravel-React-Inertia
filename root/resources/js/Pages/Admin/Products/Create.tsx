@@ -4,9 +4,9 @@ import React from "react";
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
-import { PageProps } from "@/types";
+import { Category, Color, PageProps, Size } from "@/types";
 
-const Create = ({auth,sizes,colors}:PageProps) => {
+const Create = ({sizes,colors,categories}:{sizes:Size[],colors:Color[],categories:Category[]}) => {
     const { data, setData, errors, processing, reset, post } = useForm({
         name:'',
         price:0,
@@ -14,14 +14,14 @@ const Create = ({auth,sizes,colors}:PageProps) => {
         status:'',
         description:'',
         color:'',
-        size:" "
+        size:"",
+        category:''
     });
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route("admin.product.store"));
+        post(route("admin.store.product"));
     };
-    console.log(sizes,colors)
     return (
         <AdminPanelLayout header="Edit Product">
             <Head title={`Create Product`} />
@@ -127,13 +127,17 @@ const Create = ({auth,sizes,colors}:PageProps) => {
 
                             <div className="w-full flex flex-col gap-2 justify-start">
                                 <InputLabel>Color</InputLabel>
-                                <TextInput
-                                    type="text"
+                                <select 
+                                    className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     value={data.color}
                                     onChange={(e) =>
                                         setData("color", e.target.value)
                                     }
-                                />
+                                >
+                                    {colors.map(color=>(
+                                        <option key={color.id} value={color.id}>{color.name}</option>
+                                    ))}
+                                </select>
                                 {errors.color && (
                                     <InputError message={errors.color} />
                                 )}
@@ -141,15 +145,37 @@ const Create = ({auth,sizes,colors}:PageProps) => {
 
                             <div className="w-full flex flex-col gap-2 justify-start">
                                 <InputLabel>Size</InputLabel>
-                                <TextInput
-                                    type="text"
+                                <select
+                                    className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     value={data.size}
                                     onChange={(e) =>
                                         setData("size", e.target.value)
                                     }
-                                />
+                                >
+                                    {sizes?.map((size)=>(
+                                        <option key={size.id} value={size.id}>{size.name}</option>
+                                    ))}
+                                </select>
                                 {errors.size && (
                                     <InputError message={errors.size} />
+                                )}
+                            </div>
+
+                            <div className="w-full flex flex-col gap-2 justify-start">
+                                <InputLabel>Category</InputLabel>
+                                <select
+                                    className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    value={data.category}
+                                    onChange={(e) =>
+                                        setData("category", e.target.value)
+                                    }
+                                >
+                                    {categories?.map((category)=>(
+                                        <option key={category.id} value={category.id}>{category.name}</option>
+                                    ))}
+                                </select>
+                                {errors.category && (
+                                    <InputError message={errors.category} />
                                 )}
                             </div>
                             <div className="w-full bg-gray-50 p-4 text-right flex gap-2  items-center justify-end">

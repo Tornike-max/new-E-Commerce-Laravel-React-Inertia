@@ -26,11 +26,29 @@ export interface Product {
     status: string;
 }
 
+export interface Category {
+    id:number;
+    name:string;
+    slug:string
+}
+
+export interface Size{
+    id:number;
+    name:string;
+}
+
+export interface Color{
+    id:number;
+    name:string;
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
     auth: {
         user: User;
     };
+
+    size:{}
     products: Product[];
 };

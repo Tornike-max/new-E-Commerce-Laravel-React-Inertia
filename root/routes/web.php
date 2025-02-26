@@ -17,7 +17,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/admin', [AdminController::class, 'index'])->middleware('auth')->name('admin');
 Route::get('/admin/product/create', [AdminController::class, 'create'])->middleware('auth')->name('admin.create.product');
-Route::get('/admin/product/store', [AdminController::class, 'store'])->middleware('auth')->name('admin.store.product');
+Route::post('/admin/product/store', [AdminController::class, 'store'])->middleware('auth')->name('admin.store.product');
 Route::get('/admin/show/{product}', [AdminController::class, 'show'])->middleware('auth')->name('admin.show.product');
 Route::get('/admin/{product}/edit', [AdminController::class, 'edit'])->middleware('auth')->name('admin.product.edit');
 Route::put('/admin/update/{product}', [AdminController::class, 'update'])->middleware('auth')->name('admin.product.update');
