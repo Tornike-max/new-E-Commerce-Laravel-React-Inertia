@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Size;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -49,53 +50,50 @@ class AdminController extends Controller
     }
 
 
-public function store(Request $request)
-{
-    // ვალიდაცია
-    $validatedData = $request->validate([
-        'name' => 'required|min:2|string',
-        'price' => 'required|numeric',
-        'count' => 'required|numeric',
-        'status' => 'required|string',
-        'description' => 'required|string',
-        'size' => 'required|string',
-        'color' => 'required|string',
-        'category' => 'required|exists:categories,id'
-    ]);
 
-    // slug-ის გენერაცია
-    $slug = Str::slug($validatedData['name']); // slug პროდუქტის სახელიდან
+    public function store(Request $request)
+    {
 
-    // პროდუქტის მონაცემების შესაქმნელად
-    $productData = [
-        "name" => $validatedData['name'],
-        'price' => $validatedData['price'],
-        'count' => $validatedData['count'],
-        "status" => $validatedData['status'],
-        "description" => $validatedData['description'],
-        'vendor_id' => Auth::id(),
-        'slug' => $slug // slug-ი პროდუქტის სახელიდან
-    ];
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|min:2|string',
+                'price' => 'required|numeric',
+                'count' => 'required|numeric',
+                'status' => 'required|string',
+                'description' => 'required|string',
+                'size' => 'required|string',
+                'color' => 'required|string',
+                'category' => 'required|exists:categories,id'
+            ]);
 
-    // პროდუქტის შენახვა
-    $product = Product::create($productData);
+            $slug = Str::slug($validatedData['name']);
 
-    // slug-ის დამატება კატეგორიაში
-    Category::create([
-        'name' => $validatedData['category'],
-        'slug' => $slug // slug-ის დამატება
-    ]);
+            $productData = [
+                "name" => $validatedData['name'],
+                'price' => $validatedData['price'],
+                'count' => $validatedData['count'],
+                "status" => $validatedData['status'],
+                "description" => $validatedData['description'],
+                'vendor_id' => Auth::id(),
+                'slug' => $slug
+            ];
 
-    // პროდუქტის კატეგორიაში დაკავშირება
-    $product->categories()->attach($validatedData['category']);
+            $product = Product::create($productData);
 
-    // პროდუქტის ზომის და ფერის დაკავშირება
-    $product->sizes()->attach($validatedData['size']);
-    $product->colors()->attach($validatedData['color']);
+            if (!$product) {
+                throw new \Exception('პროდუქტის შექმნა ვერ მოხერხდა.');
+            }
 
-    // დაბრუნება admin გვერდზე
-    return redirect()->route("admin");
-}
+            $product->categories()->attach($validatedData['category']);
+            $product->sizes()->attach($validatedData['size']);
+            $product->colors()->attach($validatedData['color']);
+
+
+            return redirect()->route("admin")->with('success', 'პროდუქტი წარმატებით დაემატა!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
 
 
     public function edit(Product $product)
