@@ -98,8 +98,17 @@ class AdminController extends Controller
 
     public function edit(Product $product)
     {
+        $sizes = Size::query()->orderBy("name",'asc')->get();
+        $colors = Color::query()->orderBy("name","asc")->get();
+        $categories = Category::query()->orderBy('name','asc')->get();
+        $productInfo = Product::query()->with(['vendor','categories','colors','sizes'])->where('id',$product['id'])->first();
+
+        dd($productInfo->categories());
         return inertia('Admin/Products/Edit', [
-            'product' => $product
+            'product' => $productInfo,
+            'sizes'=>$sizes,
+            'colors'=>$colors,
+            'categories'=>$categories
         ]);
     }
 

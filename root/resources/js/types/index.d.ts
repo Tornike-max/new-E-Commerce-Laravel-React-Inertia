@@ -24,6 +24,9 @@ export interface Product {
     count: number;
     image: string;
     status: string;
+    color:string;
+    size:string;
+    category:string
 }
 
 export interface Category {

@@ -1,23 +1,37 @@
 import AdminPanelLayout from "@/Layouts/AdminPanelLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
-import { Product } from "@/types";
+import { Category, Color, Product, Size } from "@/types";
 import React from "react";
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 
 interface EditProps {
-    product: Product;
-}
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    count: number;
+    image: string;
+    status: string;
+    color:string;
+    size:string;
+    category:string}
 
-const Edit = ({ product }: EditProps) => {
+const Edit = ({ product,colors,sizes,categories }: {product:EditProps,colors:Color[],sizes:Size,categories:Category[]}) => {
     const { data, setData, errors, processing, reset, put } = useForm({
         name: product.name,
         price: product.price,
         count: product.count,
         status: product.status,
         description: product.description,
+        color:product.color,
+        size:product.size,
+        category:product.category
     });
+
+
+    console.log(product)
 
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,11 +42,11 @@ const Edit = ({ product }: EditProps) => {
             <Head title={`Product Details - ${product.name}`} />
 
             <div className="py-10 min-h-screen rounded-md">
-                    <div className="w-full flex justify-start items-center my-4">
-                        <Link href={route('admin')} className="py-2 px-3 rounded-md border-[1px] border-slate-300 hover:bg-indigo-500 duration-200 transition-all hover:text-slate-100">Go Back</Link>
-                    </div>
+                <div className="w-full flex justify-start items-center my-4">
+                    <Link href={route('admin')} className="py-2 px-3 rounded-md border-[1px] border-slate-300 hover:bg-indigo-500 duration-200 transition-all hover:text-slate-100">Go Back</Link>
+                </div>
                 <div className="max-w-4xl mx-auto px-6 lg:px-8">
-                    
+
                     <div className="bg-white shadow-2xl rounded-2xl overflow-hidden border-t-4 border-indigo-500">
                         <div className="bg-indigo-600 text-white text-center py-4">
                             <h2 className="text-3xl font-extrabold">
@@ -41,7 +55,7 @@ const Edit = ({ product }: EditProps) => {
                             <p className="text-sm italic">Product Edit</p>
                         </div>
 
-                        
+
 
                         <form
                             onSubmit={onSubmit}
@@ -117,6 +131,65 @@ const Edit = ({ product }: EditProps) => {
                                 </textarea>
                                 {errors.description && (
                                     <InputError message={errors.description} />
+                                )}
+                            </div>
+                            <div className="w-full flex justify-center items-center my-4 border-t-2 border-b-2">
+                                <h2 className="">
+                                    Secondary Information
+                                </h2>
+                            </div>
+
+                            <div className="w-full flex flex-col gap-2 justify-start">
+                                <InputLabel>Color</InputLabel>
+                                <select
+                                    className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    value={data.color}
+                                    onChange={(e) =>
+                                        setData("color", e.target.value)
+                                    }
+                                >
+                                    {colors.map(color => (
+                                        <option key={color.id} value={color.id}>{color.name}</option>
+                                    ))}
+                                </select>
+                                {errors.color && (
+                                    <InputError message={errors.color} />
+                                )}
+                            </div>
+
+                            <div className="w-full flex flex-col gap-2 justify-start">
+                                <InputLabel>Size</InputLabel>
+                                <select
+                                    className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    value={data.size}
+                                    onChange={(e) =>
+                                        setData("size", e.target.value)
+                                    }
+                                >
+                                    {sizes?.map((size: Size) => (
+                                        <option key={size.id} value={size.id}>{size.name}</option>
+                                    ))}
+                                </select>
+                                {errors.size && (
+                                    <InputError message={errors.size} />
+                                )}
+                            </div>
+
+                            <div className="w-full flex flex-col gap-2 justify-start">
+                                <InputLabel>Category</InputLabel>
+                                <select
+                                    className="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    value={data.category}
+                                    onChange={(e) =>
+                                        setData("category", e.target.value)
+                                    }
+                                >
+                                    {categories?.map((category) => (
+                                        <option key={category.id} value={category.id}>{category.name}</option>
+                                    ))}
+                                </select>
+                                {errors.category && (
+                                    <InputError message={errors.category} />
                                 )}
                             </div>
                             <div className="w-full bg-gray-50 p-4 text-right flex gap-2  items-center justify-end">
