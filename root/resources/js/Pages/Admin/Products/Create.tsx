@@ -4,7 +4,9 @@ import React from "react";
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
-import { Category, Color, PageProps, Size } from "@/types";
+import { Category, Color, Size } from "@/types";
+import { router } from '@inertiajs/react';
+
 
 const Create = ({sizes,colors,categories}:{sizes:Size[],colors:Color[],categories:Category[]}) => {
     const { data, setData, errors, processing, reset, post } = useForm({
@@ -18,8 +20,7 @@ const Create = ({sizes,colors,categories}:{sizes:Size[],colors:Color[],categorie
         category:''
     });
 
-    const onSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         post(route("admin.store.product"));
     };
     return (
@@ -38,7 +39,7 @@ const Create = ({sizes,colors,categories}:{sizes:Size[],colors:Color[],categorie
                         </div>
 
                         <form
-                            onSubmit={onSubmit}
+                            onSubmit={handleSubmit}
                             className="p-8 w-full flex flex-col justify-center items-center gap-4"
                         >
                             <div className="w-full flex justify-center items-center my-4 border-t-2 border-b-2">

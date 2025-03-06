@@ -79,6 +79,7 @@ class AdminController extends Controller
             ];
 
             $product = Product::create($productData);
+            dd($product);
 
             if (!$product) {
                 throw new \Exception('პროდუქტის შექმნა ვერ მოხერხდა.');
@@ -90,6 +91,7 @@ class AdminController extends Controller
 
 
             return redirect()->route("admin")->with('success', 'პროდუქტი წარმატებით დაემატა!');
+            
         } catch (\Exception $e) {
             return back()->withErrors(['error' => $e->getMessage()]);
         }
@@ -103,7 +105,12 @@ class AdminController extends Controller
         $categories = Category::query()->orderBy('name','asc')->get();
         $productInfo = Product::query()->with(['vendor','categories','colors','sizes'])->where('id',$product['id'])->first();
 
-        dd($productInfo->categories());
+        $productInfo = Product::query()
+        ->with(['vendor', 'categories', 'colors', 'sizes'])
+        ->where('id', $product['id'])
+        ->first();
+
+        dd($productInfo->categories()->get());
         return inertia('Admin/Products/Edit', [
             'product' => $productInfo,
             'sizes'=>$sizes,
