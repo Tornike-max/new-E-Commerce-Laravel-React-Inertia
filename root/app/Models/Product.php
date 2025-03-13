@@ -22,7 +22,7 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_products');
+        return $this->hasMany(Category::class);
     }
 
     public function vendor(): BelongsTo

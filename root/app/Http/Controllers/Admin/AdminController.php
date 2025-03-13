@@ -17,13 +17,16 @@ class AdminController extends Controller
     public function index()
     {
         $products = Product::query()->with(['vendor', 'categories', 'colors', 'sizes'])->orderBy('created_at', 'asc')->get();
+        $categories = Category::query()->with('products')->orderBy('name','asc')->get();
+        dd($categories);
 
         if ($products->isEmpty()) {
             $products = null;
         }
 
-        return inertia('Admin/Products/Index', [
-            'products' => $products
+        return inertia('Admin/Index', [
+            'products' => $products,
+            'categories'=>$categories
         ]);
     }
 

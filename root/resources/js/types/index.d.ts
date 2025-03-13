@@ -54,4 +54,5 @@ export type PageProps<
 
     size:{}
     products: Product[];
+    categories:Category[];
 };

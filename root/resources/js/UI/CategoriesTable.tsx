@@ -1,21 +1,16 @@
-import AdminPanelLayout from "@/Layouts/AdminPanelLayout";
-import { PageProps, Product } from "@/types";
-import { Head, Link, useForm, usePage } from "@inertiajs/react";
-import React from "react";
+import { Product } from '@/types'
+import { Link, useForm } from '@inertiajs/react'
+import React from 'react'
 
-const Index = ({ auth, products }: PageProps) => {
+const CategoriesTable = ({products}:{products:Product[]}) => {
     const { delete: destroy, processing } = useForm();
-    const onSubmit = (id: number) => {
-        if (confirm("Are you sure you want to delete this product?")) {
-            destroy(route("admin.product.delete", id));
-        }
-    };
-    return (
-        <AdminPanelLayout header="Products">
-            <Head title="Admin Panel" />
-
-            <div className="py-12">
-                <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg p-6">
+        const onSubmit = (id: number) => {
+            if (confirm("Are you sure you want to delete this product?")) {
+                destroy(route("admin.product.delete", id));
+            }
+        };
+  return (
+    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg p-6">
                     <div className="w-full flex justify-end items-center my-4">
                         <Link href={route('admin.create.product')} className="py-2 px-3 rounded-md border-[1px] border-slate-300 hover:bg-indigo-500 hover:text-slate-100 duration-200 transition-all">Create New Product</Link>
                     </div>
@@ -104,7 +99,7 @@ const Index = ({ auth, products }: PageProps) => {
                                                         }
                                                     >
                                                         <button className="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-600">
-                                                            Delete
+                                                            {processing ? 'Deleting' : "Delete"}
                                                         </button>
                                                     </form>
                                                 </div>
@@ -125,9 +120,7 @@ const Index = ({ auth, products }: PageProps) => {
                         </table>
                     </div>
                 </div>
-            </div>
-        </AdminPanelLayout>
-    );
-};
+  )
+}
 
-export default Index;
+export default CategoriesTable
