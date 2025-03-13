@@ -66,7 +66,7 @@ class AdminController extends Controller
                 'category' => 'required|exists:categories,id'
             ]);
 
-            $slug = Str::slug($validatedData['name']);
+            // $slug = Str::slug($validatedData['name']);
 
             $productData = [
                 "name" => $validatedData['name'],
@@ -75,11 +75,9 @@ class AdminController extends Controller
                 "status" => $validatedData['status'],
                 "description" => $validatedData['description'],
                 'vendor_id' => Auth::id(),
-                'slug' => $slug
             ];
 
             $product = Product::create($productData);
-            dd($product);
 
             if (!$product) {
                 throw new \Exception('პროდუქტის შექმნა ვერ მოხერხდა.');
@@ -110,7 +108,6 @@ class AdminController extends Controller
         ->where('id', $product['id'])
         ->first();
 
-        dd($productInfo->categories()->get());
         return inertia('Admin/Products/Edit', [
             'product' => $productInfo,
             'sizes'=>$sizes,
